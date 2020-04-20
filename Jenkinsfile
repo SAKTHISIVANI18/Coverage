@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git https://github.com/SAKTHISIVANI18/Coverage.git
+                git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
         }
 
@@ -21,6 +21,16 @@ pipeline {
                 sh 'mvn install'
             }
         }
+        stage ('sonar') {
+
+          steps {
+
+
+                   sh 'sonar-scanner'
+
+          }
+
+        }     
 
         stage('static code analysis') {
             steps {
