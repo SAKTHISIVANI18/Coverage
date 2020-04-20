@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk10'
+        jdk 'jdk13.0.1'
         maven 'M3'
     }
 
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                     script {
-                        def scannerHome = tool 'sonarqube-scanner'
+                        def scannerHome = tool 'Sonar'
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
