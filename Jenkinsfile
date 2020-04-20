@@ -15,12 +15,6 @@ pipeline {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
         }
-
-        stage('Test') {
-            steps {
-                sh 'mvn install'
-            }
-        }
         stage ('sonar') {
 
           steps {
