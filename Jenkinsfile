@@ -10,9 +10,9 @@ pipeline {
     }
 
     stages {
-        stage('Prepare') {
+        stage('checkout') {
             steps {
-                checkout scm
+                git https://github.com/SAKTHISIVANI18/Coverage.git
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('QA') {
+        stage('static code analysis') {
             steps {
                 withSonarQubeEnv('sonar') {
                     script {
