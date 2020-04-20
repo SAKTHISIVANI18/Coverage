@@ -32,15 +32,12 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <properties>
-        <wicket.version>8.0.0</wicket.version>
-        <jetty9.version>9.2.24.v20180105</jetty9.version>
-        <log4j.version>2.6.2</log4j.version>
-        <junit.version>4.12</junit.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-        <wtp.version>none</wtp.version>
-    </properties>
+   <properties>
+  <sonar.projectKey>SAKTHISIVANI18_Coverage</sonar.projectKey>
+  <sonar.organization>sakthisivani18</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  <sonar.login>aa5e2e75a989ca23f45ef156a312304dae45dcae</sonar.login>
+</properties>
 
     <scm>
         <connection>scm:git:git@github.com:pingunaut/wicket-pwnedpasswords-validator.git</connection>
