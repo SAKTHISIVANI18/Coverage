@@ -6,7 +6,7 @@
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
   }
-  stage('Sonarqube') {
+  stage('Static code analysis') {
     environment {
         scannerHome = tool 'sonar'
     }
@@ -19,17 +19,8 @@
         }
     }
 }
-   stage('SonarQube analysis') {
-    steps{
-    withSonarQubeEnv(credentialsId: '74437adc-a28c-49ea-9cf6-6fce2acf95fe', installationName: 'sonar') { 
-      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.3:sonar'
-    }
-    }
-  }     
-        
  }
  }
-
 
  
       
