@@ -1,13 +1,11 @@
  pipeline {
     agent any
     tools {
-        jdk 'jdk13.0.1'
+       
         maven 'M3'
     }
 
-    environment {
-        JAVA_HOME = "${jdk}"
-    }
+    
 
     stages {
         stage('checkout') {
@@ -32,9 +30,21 @@
                     script {
                         def scannerHome = tool 'sonar'
                         sh "${scannerHome}/sonar"
+                      sh 'mvn clean package sonar:sonar'
                     }
                 }
             }
         }
-    }
-}
+    
+
+ 
+      
+          stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+        }
+      }
