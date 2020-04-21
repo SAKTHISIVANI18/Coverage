@@ -37,6 +37,10 @@
   <sonar.organization>sakthisivani18</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   <sonar.login>aa5e2e75a989ca23f45ef156a312304dae45dcae</sonar.login>
+      
+        <sonar.coverage.jacoco.xmlReportPaths>../app-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    
+
 </properties>
 
     <scm>
