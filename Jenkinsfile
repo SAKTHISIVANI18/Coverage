@@ -6,39 +6,12 @@
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
   }
-        
-        stage ("sonar") {
-
-          steps {
-
-
-                   sh 'sonar-scanner'
-
-          }
-
-        }     
-
-        stage("static code analysis") {
-            steps {
-                withSonarQubeEnv('sonar') {
-                    script {
-                        def scannerHome = tool 'sonar'
-                        sh "${scannerHome}/sonar"
-                      sh 'mvn clean package sonar:sonar'
-                    }
-                }
-            }
-        }
-    stage("SonarQube Quality Gate") { 
-     steps{
-        timeout(time: 1, unit: 'HOURS') { 
-           def qg = waitForQualityGate() 
-           if (qg.status != 'OK') {
-             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-           }
-        }
-        }
+   stage('SonarQube analysis') {
+    withSonarQubeEnv(credentialsId: '4a5d8b3dc100721ac0c12cd0ad0f3abdfc7cbc35', installationName: 'sonar') { 
+      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.3:sonar'
     }
+  }     
+        
  }
  }
 
