@@ -1,40 +1,21 @@
-pipeline {
-    agent any
-    tools {
-        jdk 'jdk13.0.1'
-        maven 'M3'
-    }
-
-    environment {
-        JAVA_HOME = "${jdk}"
-    }
-
-    stages {
-        stage('checkout') {
+ pipeline {
+        agent none
+        stages {
+          stage("build & SonarQube analysis") {
+            agent any
             steps {
-                git 'https://github.com/SAKTHISIVANI18/Coverage.git'
+              withSonarQubeEnv('My SonarQube Server') {
+                sh 'mvn clean package sonar:sonar'
+              }
             }
-        }
-        stage ('sonar') {
-
-          steps {
-
-
-                   sh 'sonar-scanner'
-
           }
-
-        }     
-
-        stage('static code analysis') {
+          stage("Quality Gate") {
             steps {
-                withSonarQubeEnv('sonar') {
-                    script {
-                        def scannerHome = tool 'Sonar'
-                        sh "${scannerHome}/Sonar"
-                    }
-                }
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
             }
+          }
         }
-    }
-}
+      }
+      
