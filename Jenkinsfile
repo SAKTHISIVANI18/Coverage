@@ -7,8 +7,10 @@
             }
   }
    stage('SonarQube analysis') {
+    steps{
     withSonarQubeEnv(credentialsId: '4a5d8b3dc100721ac0c12cd0ad0f3abdfc7cbc35', installationName: 'sonar') { 
       sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.3:sonar'
+    }
     }
   }     
         
