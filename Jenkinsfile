@@ -1,11 +1,13 @@
  pipeline {
     agent any
  stages {
+  stage ("checkout"){
            steps {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
+  }
         
-        stage ('sonar') {
+        stage ("sonar") {
 
           steps {
 
@@ -16,7 +18,7 @@
 
         }     
 
-        stage('static code analysis') {
+        stage("static code analysis") {
             steps {
                 withSonarQubeEnv('sonar') {
                     script {
