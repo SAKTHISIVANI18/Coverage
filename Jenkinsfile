@@ -1,18 +1,10 @@
  pipeline {
     agent any
-    tools {
-       
-        maven 'M3'
-    }
-
-    
-
-    stages {
-        stage('checkout') {
-            steps {
+ stages {
+           steps {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
-        }
+        
         stage ('sonar') {
 
           steps {
