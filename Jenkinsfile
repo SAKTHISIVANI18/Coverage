@@ -6,18 +6,25 @@ pipeline {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
   }
-  stage('Static code analysis') {
-    environment {
-        scannerHome = tool 'sonar'
+ 
+    stage("Statical Code Analysis") {
+        steps{
+        analyzeWithSonarQubeAndWaitForQualityGoal()
     }
-    steps {
-        withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
+
+void analyzeWithSonarQubeAndWaitForQualityGoal() {
+    withSonarQubeEnv('sonarcloud.io') {
+        mvn ‘${SONAR_MAVEN_GOAL} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN} ${SONAR_EXTRA_PROPS} ‘
+    }
+    timeout(time: 2, unit: 'MINUTES') {
+        def qg = waitForQualityGate()
+        if (qg.status != 'OK') {
+            currentBuild.result = 'UNSTABLE'
         }
-        timeout(time: 10, unit: 'MINUTES') {
-            waitForQualityGate abortPipeline: true
         }
     }
 }
+
+}
  }
- }
+ 
