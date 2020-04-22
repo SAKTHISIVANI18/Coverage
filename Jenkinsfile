@@ -17,7 +17,7 @@ pipeline {
         
        stage("static code analysis") {
            steps{
-    def scannerHome = tool 'SonarScanner 4.3.0.2102';
+    def scannerHome = tool 'sonar';
     withSonarQubeEnv('My SonarQube Server') { 
       sh "${scannerHome}/bin/sonar-scanner"
     }
