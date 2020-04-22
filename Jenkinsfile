@@ -18,6 +18,11 @@ pipeline {
                                }
                            }
                         }
+     stage("coverage"){
+         steps{
+     jacoco buildOverBuild: true, changeBuildStatus: true, runAlways: true, skipCopyOfSrcFiles: true
+         }
+     }
 
          stage("Install Dependencies") {
                                   steps {
