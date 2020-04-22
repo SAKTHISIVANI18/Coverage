@@ -10,7 +10,7 @@ pipeline {
     stage("Statical Code Analysis") {
         steps{
         analyzeWithSonarQubeAndWaitForQualityGoal()
-    }
+    
 
 void analyzeWithSonarQubeAndWaitForQualityGoal() {
     withSonarQubeEnv('sonarcloud.io') {
@@ -20,7 +20,7 @@ void analyzeWithSonarQubeAndWaitForQualityGoal() {
         def qg = waitForQualityGate()
         if (qg.status != 'OK') {
             currentBuild.result = 'UNSTABLE'
-        }
+        
         }
     }
 }
