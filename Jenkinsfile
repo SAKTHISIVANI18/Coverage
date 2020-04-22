@@ -17,7 +17,7 @@ pipeline {
         def qg = waitForQualityGate()
         if (qg.status != 'OK') {
             currentBuild.result = 'UNSTABLE'
-        
+        }  
         
     }
 }
