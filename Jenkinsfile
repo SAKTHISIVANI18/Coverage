@@ -28,9 +28,9 @@ pipeline {
                     junit 'target/surefire-reports/**/*.xml' 
                 }
             }
-         steps{
+         
          codesonar conditions: [cyclomaticComplexity(maxCyclomaticComplexity: 30)], credentialId: '4c856e58-e3c7-4d0a-8ebf-40dc175e7f68', hubAddress: 'https://sonarcloud.io', projectName: 'https://github.com/SAKTHISIVANI18/Coverage.git', protocol: 'http'
-        }
+       
      }
     
          stage("static code analysis") {
