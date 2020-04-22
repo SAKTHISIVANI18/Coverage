@@ -11,9 +11,9 @@ pipeline {
          stage("static code analysis") {
                    steps {
                        script {
-                          def scannerHome = tool 'fosslinxsonar';
+                          def scannerHome = tool 'sonar';
                           withSonarQubeEnv("sonar") {
-                          sh "${tool("fosslinxsonar")}/bin/sonar-scanner"
+                          sh "${tool("sonar")}/bin/sonar-scanner"
                                        }
                                }
                            }
