@@ -13,7 +13,7 @@ pipeline {
             steps {
 
 
-                    sh '/opt/apps/devops/sonar-scanner-4.2.0.1873-linux/bin/sonar-scanner'
+                    sh 'sonar-scanner'
 
             }
 
@@ -22,14 +22,16 @@ pipeline {
       stage("static code analysis") {
           steps{
         timeout(time: 1, unit: 'HOURS') { 
-           def qg = waitForQualityGate() 
-           if (qg.status != 'OK') {
-             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-           }
+            withSonarQubEnv('sonar'){
+                script{
+                    def scannerHome = tool 'sonar'
+                    sh "${scannerHome}/bin/sonar-scanner"
         }
         }
     }
     }
  }
+ }
+}
 
  
