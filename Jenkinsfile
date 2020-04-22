@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    tools {nodejs "fosslinuxnode"}
  stages {
   stage ("checkout"){
            steps {
@@ -7,31 +8,32 @@ pipeline {
             }
   }
     
+         stage("static code analysis") {
+                   steps {
+                       script {
+                          def scannerHome = tool 'fosslinxsonar';
+                          withSonarQubeEnv("fosslinxSonarqubeserver") {
+                          sh "${tool("fosslinxsonar")}/bin/sonar-scanner"
+                                       }
+                               }
+                           }
+                        }
 
-   stage ("sonar") {
+         stage("Install Dependencies") {
+                                  steps {
+                                        sh "npm install"
 
-            steps {
+                                       }
+                                }
 
+         stage("unit Test") {
+                            steps {
+                                sh "npm test"
 
-                    sh 'sonar-scanner'
-
-            }
-
-         }     
-        
-      stage("static code analysis") {
-          steps{
-        timeout(time: 1, unit: 'HOURS') { 
-            withSonarQubEnv('sonar'){
-                script{
-                    def scannerHome = tool 'sonar'
-                    sh "${scannerHome}/bin/sonar-scanner"
-        }
-        }
-    }
-    }
- }
- }
-}
+                              }
+                        }
+             }
+     }
+ 
 
  
