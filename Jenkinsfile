@@ -1,6 +1,7 @@
 pipeline {
     agent any
     tools {
+        jdk "jdk9"
         maven "M3"
         nodejs "fosslinuxnode"
     }
@@ -13,8 +14,8 @@ pipeline {
      stage ("Initialize") {
             steps {
                 
-                    echo "PATH = ${PATH}"
-                    echo "M3_HOME = ${M3_HOME}"
+                sh 'PATH = ${PATH}'
+                    sh 'M3_HOME = ${M3_HOME}'
                 
             }
         }
@@ -27,7 +28,10 @@ pipeline {
                     junit 'target/surefire-reports/**/*.xml' 
                 }
             }
+         steps{
+         codesonar conditions: [cyclomaticComplexity(maxCyclomaticComplexity: 30)], credentialId: '4c856e58-e3c7-4d0a-8ebf-40dc175e7f68', hubAddress: 'https://sonarcloud.io', projectName: 'https://github.com/SAKTHISIVANI18/Coverage.git', protocol: 'http'
         }
+     }
     
          stage("static code analysis") {
                    steps {
