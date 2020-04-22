@@ -8,12 +8,16 @@ pipeline {
   }
     
 
-   
-        stage ("Compile") {
+   stage ("sonar") {
+
             steps {
-                sh 'mvn clean compile'
+
+
+                    sh '/opt/apps/devops/sonar-scanner-4.2.0.1873-linux/bin/sonar-scanner'
+
             }
-        }
+
+         }     
         
        stage("static code analysis") {
            steps{
