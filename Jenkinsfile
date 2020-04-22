@@ -11,7 +11,7 @@ pipeline {
         steps{
        
     withSonarQubeEnv('sonarcloud.io') {
-        mvn ‘${SONAR_MAVEN_GOAL} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN} ${SONAR_EXTRA_PROPS} ‘
+        mvn clean install -Dsonar.host.url=sonarcloud.io -Dsonar.login=4a5d8b3dc100721ac0c12cd0ad0f3abdfc7cbc35 
     }
     timeout(time: 2, unit: 'MINUTES') {
         def qg = waitForQualityGate()
