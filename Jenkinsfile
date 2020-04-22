@@ -9,31 +9,32 @@ pipeline {
     
 
    
-        stage ('Compile') {
+        stage ("Compile") {
             steps {
                 sh 'mvn clean compile'
             }
         }
         
-        stage ('SonarQube') {
-            steps {
-                script {
-                    if (env.GIT_BRANCH == 'master') {
-                        withSonarQubeEnv ('SonarQube') {
-                            sh 'mvn package -DskipTests -U sonar:sonar -Dsonar.branch.name=master -Dsonar.host.url=SONARQUBE_SERVER_URL -Dsonar.login=18b145db92099cd1ae7fc5514633ccf07ada9243 -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
-                        }
-                    } else if (env.GIT_BRANCH == 'development') {
-                        withSonarQubeEnv ('SonarQube') {
-                            sh 'mvn package -DskipTests -U sonar:sonar -Dsonar.branch.name=development -Dsonar.host.url=SONARQUBE_SERVER_URL -Dsonar.login=18b145db92099cd1ae7fc5514633ccf07ada9243 -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
-                        }
-                    } else {
-                        withSonarQubeEnv ('SonarQube') {
-                            sh 'mvn package -DskipTests -U sonar:sonar -Dsonar.branch.name=refs/pull-requests/${PRID}/from -Dsonar.host.url=SONARQUBE_SERVER_URL -Dsonar.login=18b145db92099cd1ae7fc5514633ccf07ada9243 -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
-                        }
-                    }
-                }
-            }
-        }
+       stage ("Analysis") {
+        def mvnHome = tool 'mvn-default'
+ 
+        sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
+ 
+        def checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
+        publishIssues issues:[checkstyle]
+    
+        def pmd = scanForIssues tool: [$class: 'Pmd'], pattern: '**/target/pmd.xml'
+        publishIssues issues:[pmd]
+         
+        def cpd = scanForIssues tool: [$class: 'Cpd'], pattern: '**/target/cpd.xml'
+        publishIssues issues:[cpd]
+         
+        def findbugs = scanForIssues tool: [$class: 'FindBugs'], pattern: '**/target/findbugsXml.xml'
+        publishIssues issues:[findbugs]
+ 
+        def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: '**/target/spotbugsXml.xml'
+        publishIssues issues:[spotbugs]
+    }
     }
  }
 
