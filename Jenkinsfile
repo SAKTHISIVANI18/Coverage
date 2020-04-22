@@ -12,7 +12,7 @@ pipeline {
   }
      stage ("Initialize") {
             steps {
-                sh 
+                
                     echo "PATH = ${PATH}"
                     echo "M3_HOME = ${M3_HOME}"
                 
