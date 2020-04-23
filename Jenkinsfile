@@ -23,11 +23,11 @@ pipeline {
     
          stage('static code analysis') {
                    steps {
-                       script {
+                       
                           def scannerHome = tool 'fosslinxsonar';
                           withSonarQubeEnv("sonar") {
                           sh '${tool("fosslinxsonar")}'
-                                       }
+                                       
                                }
                            }
                         }
