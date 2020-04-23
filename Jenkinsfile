@@ -23,11 +23,7 @@ pipeline {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install' 
             }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
+            
         }
         
     
@@ -36,8 +32,8 @@ pipeline {
                        script{
                        
                           def scannerHome = tool 'fosslinxsonar';
-                          withSonarQubeEnv("sonar") {
-                          sh '${tool("fosslinxsonar")}'
+                          withSonarQubeEnv('sonar') {
+                          sh "${scannerHome}/bin/sonar-scanner"
                           }
                                        
                                }
