@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         jdk "jdk9"
-        maven "M3"
+        maven "maven"
         nodejs "fosslinuxnode"
     }
  stages {
