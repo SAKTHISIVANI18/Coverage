@@ -6,33 +6,24 @@ pipeline {
         nodejs "fosslinuxnode"
     }
  stages {
-  stage ("checkout"){
+  stage ('checkout'){
            steps {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
   }
-     stage ("Initialize") {
+    stage ('package') {
+
             steps {
-                
-                sh 'PATH = ${PATH}'
-                    sh 'M3_HOME = ${M3_HOME}'
-                
+
+
+                    sh './mvn clean package'
+
             }
-        }
-     stage ("Build") {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
-         
-         
-     }
+
+         }
+        
     
-         stage("static code analysis") {
+         stage('static code analysis') {
                    steps {
                        script {
                           def scannerHome = tool 'fosslinxsonar';
@@ -42,20 +33,20 @@ pipeline {
                                }
                            }
                         }
-     stage("coverage"){
+     stage('coverage'){
          steps{
      jacoco buildOverBuild: true, changeBuildStatus: true, runAlways: true, skipCopyOfSrcFiles: true
          }
      }
 
-         stage("Install Dependencies") {
+         stage('Install Dependencies') {
                                   steps {
                                         sh "npm install"
 
                                        }
                                 }
 
-         stage("unit Test") {
+         stage('unit Tes') {
                             steps {
                                 sh "npm test"
 
