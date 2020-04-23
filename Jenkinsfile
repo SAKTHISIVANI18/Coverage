@@ -26,7 +26,7 @@ pipeline {
                        script {
                           def scannerHome = tool 'fosslinxsonar';
                           withSonarQubeEnv("sonar") {
-                          sh "${tool("fosslinxsonar")}"
+                          sh '${tool("fosslinxsonar")}'
                                        }
                                }
                            }
