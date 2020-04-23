@@ -11,16 +11,14 @@ pipeline {
                 git 'https://github.com/SAKTHISIVANI18/Coverage.git'
             }
   }
-    stage ('package') {
-
+   stage ('Initialize') {
             steps {
-
-
-                    sh './mvn clean package'
-
+                
+                 sh 'echo "PATH = ${PATH}"'
+                   sh 'echo "M3_HOME = ${M3_HOME}"'
+                
             }
-
-         }
+        }
         
     
          stage('static code analysis') {
